@@ -1,6 +1,6 @@
-import base64
 from datetime import datetime as dt
-from odoo import models, fields, _
+
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -55,7 +55,9 @@ class Purchase(models.Model):
         pending_sign_request.write({"status": "NO_ACTION"})
         self.signing_request_finished = True
 
-        if self.l10n_do_gov_signing_request_ids.filtered(lambda sq: sq.status == "SIGNED"):
+        if self.l10n_do_gov_signing_request_ids.filtered(
+            lambda sq: sq.status == "SIGNED"
+        ):
             self._message_post_signed_document()
 
     def update_signing_request_status(self):
