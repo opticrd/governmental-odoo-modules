@@ -20,7 +20,7 @@
                       attrs="{'invisible': [('request_public_access_id', '=', False)]}">
                     <button name="update_signing_request_status" type="object" string="Update"
                             attrs="{'invisible': [('signing_request_finished', '=', True)]}"/>
-                    <button name="finalize_signing_request" type="object" string="Finalize"
+                    <button name="finalize_document_signing_request" type="object" string="Finalize"
                             attrs="{'invisible': [('signing_request_finished', '=', True)]}"/>
                     <field name="l10n_do_gov_signing_request_ids">
                         <tree editable="bottom">
