@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_hr_expense_sheet_form_inherited" model="ir.ui.view">
+        <field name="name">view.hr.expense.sheet.form.inherited</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <button name="approve_expense_sheets" position="after">
+                <button name="action_signing_request_wizard" type="object" string="Request Approval"
+                        attrs="{'invisible': [('request_public_access_id', '!=', False)]}"/>
+            </button>
+            <field name="can_approve" position="after">
+                <field name="request_public_access_id" invisible="1"/>
+                <field name="document_public_access_id" invisible="1"/>
+                <field name="signing_request_finished" invisible="1"/>
+            </field>
+            <page name="expenses" position="after">
+                <page string="Signing requests" name="signing_request"
+                      attrs="{'invisible': [('request_public_access_id', '=', False)]}">
+                    <button name="update_signing_request_status" type="object" string="Update"
+                            attrs="{'invisible': [('signing_request_finished', '=', True)]}"/>
+                    <button name="finalize_document_signing_request" type="object" string="Finalize"
+                            attrs="{'invisible': [('signing_request_finished', '=', True)]}"/>
+                    <field name="l10n_do_gov_signing_request_ids">
+                        <tree editable="bottom">
+                            <field name="user_id"/>
+                            <field name="action"/>
+                            <field name="action_date"/>
+                            <field name="status"/>
+                            <field name="comment"/>
+                            <field name="expense_sheet_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>

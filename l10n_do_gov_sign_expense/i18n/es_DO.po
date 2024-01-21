@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_do_gov_sign_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-21 17:13+0000\n"
+"PO-Revision-Date: 2024-01-21 13:17-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_DO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__document_public_access_id
+msgid "Document Public Access"
+msgstr "ID de Acceso Público"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model,name:l10n_do_gov_sign_expense.model_l10n_do_gov_document_signing_request
+msgid "Document Signing Request"
+msgstr "Solicitud de Firmado"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model,name:l10n_do_gov_sign_expense.model_hr_expense_sheet
+msgid "Expense Report"
+msgstr "Informe de gastos"
+
+#. module: l10n_do_gov_sign_expense
+#: code:addons/l10n_do_gov_sign_expense/models/hr_expense.py:0
+#, python-format
+msgid "Expense Report Signing Request"
+msgstr "Solicitud de firma del informe de gastos"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_l10n_do_gov_document_signing_request__expense_sheet_id
+msgid "Expense Sheet"
+msgstr "Informe de gastos"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.actions.server,name:l10n_do_gov_sign_expense.expense_update_signing_request_status_ir_actions_server
+#: model:ir.cron,cron_name:l10n_do_gov_sign_expense.expense_update_signing_request_status
+#: model:ir.cron,name:l10n_do_gov_sign_expense.expense_update_signing_request_status
+msgid "Expense: Update signing request status"
+msgstr "Gastos: Actualizar el estado del informe de gastos"
+
+#. module: l10n_do_gov_sign_expense
+#: model:mail.template,report_name:l10n_do_gov_sign_expense.email_template_expense_report
+msgid "Expense_{{ (object.name or '')}}"
+msgstr "Gasto_{{ (object.name or ‘’)}}"
+
+#. module: l10n_do_gov_sign_expense
+#: model:mail.template,name:l10n_do_gov_sign_expense.email_template_expense_report
+msgid "Expenses: Send Expense Report"
+msgstr "Gastos: Enviar Informe de Gastos"
+
+#. module: l10n_do_gov_sign_expense
+#: model_terms:ir.ui.view,arch_db:l10n_do_gov_sign_expense.view_hr_expense_sheet_form_inherited
+msgid "Finalize"
+msgstr "Finalizar"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: l10n_do_gov_sign_expense
+#: model_terms:ir.ui.view,arch_db:l10n_do_gov_sign_expense.view_hr_expense_sheet_form_inherited
+msgid "Request Approval"
+msgstr "Solicitud de Aprobación"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__request_public_access_id
+msgid "Request Public Access"
+msgstr "ID Acceso Público de Solicitud"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__signing_request_finished
+msgid "Signing Request Finished"
+msgstr "Solicitud de Firma Finalizada"
+
+#. module: l10n_do_gov_sign_expense
+#: model_terms:ir.ui.view,arch_db:l10n_do_gov_sign_expense.view_hr_expense_sheet_form_inherited
+msgid "Signing requests"
+msgstr "Solicitudes de firma"
+
+#. module: l10n_do_gov_sign_expense
+#: model:ir.model.fields,field_description:l10n_do_gov_sign_expense.field_hr_expense_sheet__l10n_do_gov_signing_request_ids
+msgid "Signing/Approval Requests"
+msgstr "Solicitud de Firmas/Aprobaciones"
+
+#. module: l10n_do_gov_sign_expense
+#: model_terms:ir.ui.view,arch_db:l10n_do_gov_sign_expense.view_hr_expense_sheet_form_inherited
+msgid "Update"
+msgstr "Actualizar"
+
+#. module: l10n_do_gov_sign_expense
+#: model:mail.template,subject:l10n_do_gov_sign_expense.email_template_expense_report
+msgid "{{ object.company_id.name }} Expense Report (Ref {{ object.name or 'n/a' }})"
+msgstr "{{ object.company_id.name }} Informe de Gastos (Ref {{ object.name or ’n/a’ }})"
