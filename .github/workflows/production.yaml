@@ -39,9 +39,9 @@ jobs:
       - name: Odoo Enterprise
         uses: actions/checkout@v2
         with:
-          repository: odoo/enterprise
+          repository: ${{ vars.REPOSITORY_NAME }}
           token: ${{ secrets.ACTIONS_PAT }}
-          path: odoo/enterprise
+          path: ${{ vars.REPOSITORY_NAME }}
           ref: ${{ env.GITHUB_REF_SLUG }}
 
       # - name: Odoo Themes

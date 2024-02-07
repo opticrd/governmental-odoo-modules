@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_fleet_vehicle_log_services_tree_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.log.services.tree.inherit</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_tree" />
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="license_plate" string="License Plate" />
+                    <field name="brand" string="Brand" />
+                    <field name="model" string="Model" />
+                    <field name="payment_method_id" string="Payment Method" />
+                    <field name="ref" string="Reference" />
+                </field>
+            </field>
+        </record>
+        <record id="view_fleet_vehicle_log_services_form_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.log.services.form.inherit</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form" />
+            <field name="arch" type="xml">
+                <field name="vendor_id" position="after">
+                    <field name="ref" string="Reference" />
+                    <field name="payment_method_id" string="Payment Method" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

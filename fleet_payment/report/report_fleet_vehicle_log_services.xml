@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="report_vehicle_log_services" model="ir.actions.report">
+        <field name="name">Report Services</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fleet_payment.report_custom_template</field>
+        <field name="report_file">fleet_payment.report_custom_template</field>
+        <field name="binding_model_id" ref="model_fleet_vehicle_log_services" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_custom_template">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="header" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-3">
+                                <img t-attf-src="data:image/*;base64,{{request.env.user.company_id.logo}}" style="max-width: 215px; display: block; margin: auto;" />
+                            </div>
+                            <div class="col-9" style="margin-top: 15px; text-align: right;">
+                                <h6>Administrative Financial Vice Ministry</h6>
+                                <h6>Administrativ Directorate</h6>
+                                <span style="font-size: 14px;">Corporate Fleet Fuel Proof List</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row o_header" style="font-size: 13px;">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>Account Number:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -15px;">
+                                    <span t-out="docs[0].payment_method_id.acc_number"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>Payment Form:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -15px;">
+                                    <span t-field="docs[0].payment_method_id.payment_form"></span>
+                                </div>
+                            </div>
+                            <t t-set="interval_start" t-value="min(docs.mapped('date')).strftime('%d-%m-%Y')" />
+                            <t t-set="interval_end" t-value="max(docs.mapped('date')).strftime('%d-%m-%Y')" />
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>From Date:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -15px;">
+                                    <span t-out="interval_start" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 fw-bold" >
+                                    <span>To Date:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -15px;">
+                                    <span t-out="interval_end" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>Date:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -20px;">
+                                    <span t-field="user.create_date"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>User:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -20px;">
+                                    <span t-field="user.name" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span>Department:</span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -20px;">
+                                    <span>Department of General Services</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 fw-bold">
+                                    <span></span>
+                                </div>
+                                <div class="col-8 text-muted" style="margin-left: -20px;">
+                                    <span>Transportation Division</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="info">
+                        <table class="table">
+                            <thead style="font-size: 13px;">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>License Plate</th>
+                                    <th>Brand</th>
+                                    <th>Model</th>
+                                    <th>Description</th>
+                                    <th>Reference</th>
+                                    <th>Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody t-foreach="docs" t-as="o" style="font-size: 12px;">
+                                <tr t-attf-class="#{('line-break' if o_index % 20 == 0 else '')}">
+                                    <td>
+                                        <span t-field="o.date" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.license_plate" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.brand" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.model" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.description" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.ref" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.amount" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="text-align: right; margin-right: 60px; font-size: 13px;">
+                        <span style="font-weight: bold;">Total:</span>
+                        <span>
+                            <t t-if="docs and docs[0].currency_id">
+                                <span t-esc="docs[0].currency_id.symbol" />
+                                <span t-esc="'{:,.2f}'.format(sum(doc.amount for doc in docs if isinstance(doc.amount, (int, float))))" class="oe_list_number" />
+                            </t>
+                        </span>
+                    </div><br /><br /> <br />
+                    <table class="sign-table" style="width: 100%; text-align: center; font-size: 13px;">
+                        <tr>
+                            <td style="width: 33.33%; padding-right: 60px;">
+                                <p>Prepared by:</p>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <p>_________________________________</p>
+                                <p>Secretary General Services</p>
+                            </td>
+                            <td style="width: 33.33%; padding-right: 60px;">
+                                <p>Reviewed by:</p>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <p>_________________________________</p>
+                                <p>Enc. Transportation Division</p>
+                            </td>
+                            <td style="width: 33.33%;">
+                                <p>Approved by:</p>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <p>_________________________________</p>
+                                <p>Enc. General Services Department</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="footer" style="border-top: 1px solid black;">
+                        <div class="text-center" style="font-size: 12px;">
+                            <span class="page" />
+                            /
+                            <span class="topage" />
+                        </div>
+                    </div>
+                </div>
+             </t>
+    </template>
+</odoo>
