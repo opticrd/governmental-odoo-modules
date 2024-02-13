@@ -1,3 +1,4 @@
+import ast
 from odoo.addons.base_rest import restapi
 from odoo.addons.base_rest_datamodel.restapi import Datamodel
 from odoo.addons.component.core import Component
@@ -23,7 +24,7 @@ class ProductService(Component):
         Payload example:
         {
             "values: {
-                "product_ids": [5, 17]
+                "product_ids": "[5, 17]"
                 "lot_id": 7,
                 "owner_id": 15,
                 "package_id": 24,
@@ -37,12 +38,18 @@ class ProductService(Component):
         if "product_ids" not in values:
             return {}
 
-        products = (
-            self.env["product.product"]
-            .browse(values["product_ids"])
-            .filtered(lambda p: p.type != "service")
-        )
-        return products._compute_quantities_dict(
+        product_obj = self.env["product.product"]
+        product_list = ast.literal_eval(str(values["product_ids"]))
+
+        if not product_list:
+            # empty array of products will search all records
+            products = product_obj.search([])
+        else:
+            products = product_obj.browse(product_list)
+
+        return products.filtered(
+            lambda p: p.type != "service"
+        )._compute_quantities_dict(
             values.get("lot_id", False),
             values.get("owner_id", False),
             values.get("package_id", False),
