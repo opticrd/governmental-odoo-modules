@@ -1,4 +1,4 @@
-ARG IMAGE_LOCATION=gcr.io/iterativo/dockerdoo
+ARG IMAGE_LOCATION=iterativodo/dockerdoo
 ARG ODOO_VERSION=15.0
 FROM ${IMAGE_LOCATION}:${ODOO_VERSION}
 
