@@ -39,13 +39,25 @@ class ProductService(Component):
             return {}
 
         product_obj = self.env["product.product"]
-        product_list = ast.literal_eval(str(values["product_ids"]))
+        product_list = []
+
+        try:
+            product_list = ast.literal_eval(str(values["product_ids"]))
+
+        except ValueError:
+            names = values["product_ids"].strip("[]").split(",")
+            for n in names:
+                res = product_obj.name_search(n.strip())
+                if res:
+                    product_list.append(res[0][0])
 
         if not product_list:
             # empty array of products will search all records
             products = product_obj.search([])
         else:
             products = product_obj.browse(product_list)
+
+        # E-COM06, E-COM07
 
         return products.filtered(
             lambda p: p.type != "service"
