@@ -180,7 +180,7 @@ jobs:
           ODOO_VERSION_URL_SLUG: ${{ env.GITHUB_BASE_REF_SLUG_URL }}
           DEPLOY_DOMAIN: ${{ secrets.DEPLOY_DOMAIN }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: deployment-${{ env.GITHUB_HEAD_REF_SLUG }}
           path: deployment.yaml
