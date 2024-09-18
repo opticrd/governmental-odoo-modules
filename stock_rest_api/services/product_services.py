@@ -5,9 +5,7 @@ from odoo.addons.component.core import Component
 
 
 class ProductService(Component):
-    _inherit = "base.rest.service"
-    _name = "product.service"
-    _usage = "product"
+    _inherit = "product.service"
     _collection = "stock.rest.api.private.services"
     _description = """
         Product Services
@@ -51,7 +49,7 @@ class ProductService(Component):
                 if res:
                     product_list.append(res[0][0])
 
-        if not product_list:
+        if not values.get("product_ids") and not product_list:
             # empty array of products will search all records
             products = product_obj.search([])
         else:
