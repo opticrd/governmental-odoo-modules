@@ -39,7 +39,7 @@ jobs:
           github-token: "${{ secrets.ACTIONS_PAT }}"
 
       - name: Upload artifact with db name
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: db_name-${{ steps.comment-branch.outputs.head_ref }}
           path: db_name.txt
