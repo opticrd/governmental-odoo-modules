@@ -25,7 +25,7 @@ env:
   REQUIRED_MODULES: cloud_platform_exoscale # list of addional addons to install separated by comma
   GAR_BASE: us-docker.pkg.dev/${{ secrets.GKE_PROJECT }}/odoo-gob
   HUB_BASE: gobdo/odoo-gob
-  IMAGE_LOCATION: gcr.io/iterativo/dockerdoo
+  IMAGE_LOCATION: iterativodo/dockerdoo
   ENV: "test"
 
 jobs:
@@ -180,7 +180,7 @@ jobs:
           ODOO_VERSION_URL_SLUG: ${{ env.GITHUB_BASE_REF_SLUG_URL }}
           DEPLOY_DOMAIN: ${{ secrets.DEPLOY_DOMAIN }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: deployment-${{ env.GITHUB_HEAD_REF_SLUG }}
           path: deployment.yaml

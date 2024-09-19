@@ -7,7 +7,7 @@ from odoo.addons.component.core import Component
 
 class ProductService(Component):
     _inherit = "product.service"
-    _collection = "stock.rest.api.private.services"
+    _collection = "product.rest.api.private.services"
     _description = """
         Product Services
         Access to the Product services is only allowed to authenticated users.
