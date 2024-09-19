@@ -1,4 +1,5 @@
 import ast
+from datetime import datetime
 from odoo.addons.base_rest import restapi
 from odoo.addons.base_rest_datamodel.restapi import Datamodel
 from odoo.addons.component.core import Component
@@ -6,7 +7,7 @@ from odoo.addons.component.core import Component
 
 class ProductService(Component):
     _inherit = "product.service"
-    _collection = "product.rest.api.private.services"
+    _collection = "stock.rest.api.private.services"
     _description = """
         Product Services
         Access to the Product services is only allowed to authenticated users.
@@ -21,8 +22,8 @@ class ProductService(Component):
         """
         Payload example:
         {
-            "values: {
-                "product_ids": "[5, 17]"
+            "values": {
+                "product_ids": "[5, 17]",
                 "lot_id": 7,
                 "owner_id": 15,
                 "package_id": 24,
@@ -33,36 +34,51 @@ class ProductService(Component):
         """
 
         values = values.values
-        if "product_ids" not in values:
-            return {}
 
-        product_obj = self.env["product.product"]
-        product_list = []
+        if "product_ids" not in values or not values["product_ids"]:
+            return {"error": "Missing product_ids"}, 400
 
         try:
             product_list = ast.literal_eval(str(values["product_ids"]))
+            if not isinstance(product_list, list):
+                raise ValueError
+        except (ValueError, SyntaxError):
+            return {"error": "Invalid format for product_ids."}, 400
 
+        from_date = values.get("from_date")
+        to_date = values.get("to_date")
+        try:
+            if from_date:
+                datetime.strptime(from_date, "%Y-%m-%d")
+            if to_date:
+                datetime.strptime(to_date, "%Y-%m-%d")
+            if from_date and to_date and from_date > to_date:
+                return {"error": "from_date cannot be later than to_date"}, 400
         except ValueError:
-            names = values["product_ids"].strip("[]").split(",")
-            for n in names:
-                res = product_obj.name_search(n.strip())
-                if res:
-                    product_list.append(res[0][0])
+            return {"error": "Invalid date format. Use YYYY-MM-DD"}, 400
 
-        if not values.get("product_ids") and not product_list:
-            # empty array of products will search all records
+        product_obj = self.env["product.product"]
+
+        if not product_list:
             products = product_obj.search([])
         else:
             products = product_obj.browse(product_list)
+            if not products:
+                return {"error": "No products found with the provided IDs"}, 404
 
-        # E-COM06, E-COM07
+        filtered_products = products.filtered(lambda p: p.type != "service")
+        if not filtered_products:
+            return {"error": "All selected products are of type 'service'"}, 404
 
-        return products.filtered(
-            lambda p: p.type != "service"
-        )._compute_quantities_dict(
-            values.get("lot_id", False),
-            values.get("owner_id", False),
-            values.get("package_id", False),
-            values.get("from_date", False),
-            values.get("to_date", False),
-        )
+        try:
+            quantities = filtered_products._compute_quantities_dict(
+                values.get("lot_id", False),
+                values.get("owner_id", False),
+                values.get("package_id", False),
+                from_date,
+                to_date,
+            )
+        except Exception as e:
+            return {"error": str(e)}, 500
+
+        return quantities, 200
