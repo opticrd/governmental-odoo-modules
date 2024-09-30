@@ -10,7 +10,11 @@ jobs:
   flake8:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+            # super-linter needs the full git history to get the
+            # list of files that changed across commits
+            fetch-depth: 0
       - uses: actions/setup-python@v2
         with:
           python-version: 3.7
@@ -25,20 +29,11 @@ jobs:
           --per-file-ignores='**/init.py:F401' \
           --exclude=__unported__,__init__.py,examples \
           --show-source --statistics --count --max-line-length=120 .
-      - uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
+      - uses: super-linter/super-linter@v7.1.0
         if: github.event_name == 'pull_request'
-        with:
-          # The GitHub API token to create reviews with
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Fail if "new" violations detected or "any", default "new"
-          failIf: new
-          # Additional arguments to pass to flake8, default "." (current directory)
-          args: |
-            --select=C,E,F,W,B,B950 \
-            --ignore=E123,E133,E226,E241,E242,F811,F601,W503,W504,E203,E501 \
-            --per-file-ignores='**/init.py:F401' \
-            --exclude=__unported__,__init__.py,examples \
-            --show-source --statistics --max-line-length=120 .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILTER_REGEX_EXCLUDE: ^__init__\.py|examples
   pylint:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
