@@ -13,7 +13,7 @@
     'summary': """
 
 Localization Module for Dominican Republic Goverment
-=====================================================
+======================================================
 Description pending
 
     """,

@@ -1,7 +1,7 @@
 {
     "name": "Purchase Order Gov Footer",
     "summary": """
-        This module adds approval sign lines to purchase documents
+        This module adds approval sign lines to purchase documents.
     """,
     "author": "José López, OPTIC",
     "website": "https://optic.gob.do",
