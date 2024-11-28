@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_price_history_tree_view" model="ir.ui.view">
+        <field name="name">product.price.history.tree.view</field>
+        <field name="model">product.price.history</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="state == 'cancel'"
+                  decoration-info="state == 'draft'">
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="default_code"/>
+                <field name="po_uom_id" groups="uom.group_uom"/>
+                <field name="prd_uom_id" groups="uom.group_uom"/>
+                <field name="categ_id"/>
+                <field name="company_po_price_unit" widget="monetary"/>
+                <field name="company_prd_price_unit" widget="monetary"/>
+                <field name="currency_po_price_unit" optional="hide" widget="monetary"
+                       groups="base.group_multi_currency"/>
+                <field name="currency_prd_price_unit" optional="hide" widget="monetary"
+                       groups="base.group_multi_currency"/>
+                <field name="partner_id"/>
+                <field name="account_id" optional="hide"
+                       groups="account.group_account_readonly"/>
+                <field name="state" optional="hide"/>
+                <field name="company_currency_id" optional="hide"
+                       groups="base.group_multi_currency"/>
+                <field name="purchase_currency_id" optional="hide"
+                       groups="base.group_multi_currency"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_price_history_search_view" model="ir.ui.view">
+        <field name="name">product.price.history.search.view</field>
+        <field name="model">product.price.history</field>
+        <field name="arch" type="xml">
+            <search string="Product Price History">
+                <field name="product_id"
+                       filter_domain="['|', ('product_id', 'ilike', self), ('default_code', 'ilike', self)]"/>
+                <field name="partner_id"/>
+                <field name="categ_id"/>
+                <field name="account_id" groups="account.group_account_readonly"/>
+                <filter string="Confirmed" domain="[('state', '=', 'purchase')]"
+                        name="state_confirmed"/>
+                <filter string="Draft" domain="[('state', '=', 'draft')]"
+                        name="state_draft"/>
+                <filter string="Cancelled" domain="[('state', '=', 'cancel')]"
+                        name="state_cancelled"/>
+                <separator/>
+                <group expand="0" string="Group By...">
+                    <filter string="State" name="state_group" domain="[]"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Product" name="product" domain="[]"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter string="Category" name="category" domain="[]"
+                            context="{'group_by': 'categ_id'}"/>
+                    <filter string="Account" name="account" domain="[]"
+                            context="{'group_by': 'account_id'}"
+                            groups="account.group_account_readonly"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="product_price_history_action" model="ir.actions.act_window">
+        <field name="name">Product Price History</field>
+        <field name="res_model">product.price.history</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="product_price_history_search_view"/>
+        <field name="context">
+            {'search_default_state_confirmed':1, 'search_default_product':1}
+        </field>
+        <field name="view_id" ref="product_price_history_tree_view"/>
+    </record>
+
+    <menuitem name="Price History" id="product_price_history_menu"
+              action="product_price_history_action"
+              parent="purchase.purchase_report_main"
+              sequence="99"
+              groups="purchase.group_purchase_manager"/>
+
+</odoo>
